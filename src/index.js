@@ -53,23 +53,39 @@ async function analyze(workingDirectory) {
       continue;
     }
 
+    // Example line:
+    // "WARNING|STATIC_WARNING|DEAD_NULL_AWARE_EXPRESSION|/home/runner/work/lockbox-frontend/lockbox-frontend/code/lib/src/screens/analytics/dashboard_analysis_detail_tabs/dashboard_analysis_detail_screen.dart|204|150|2|The left operand can't be null, so the right operand is never executed."
+
     const lineData = line.split(dataDelimiter);
     const lint = lineData[2];
     const lintLowerCase = lint.toLowerCase();
     const file = lineData[3].replace(workingDirectory, '');
+    const line = lineData[4];
+    const startColumn = lineData[5];
+    const endColumn = lineData[7];
     const url = lint === lintLowerCase
       ? `https://dart-lang.github.io/linter/lints/${lint}.html`
       : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`
-    const message = `file=${file},line=${lineData[4]},col=${lineData[5]}::${lineData[7]} For more details, see ${url}`;
+    // const message = `file=${file},line=${lineData[4]},col=${lineData[5]}::${lineData[7]} For more details, see ${url}`;
+
+    const message = `${lineData[7]} For more details, see ${url}`
+    const annotation = {
+      title: "Code Analysis Output",
+      file: file,
+      startLine: parseInt(line),
+      endLine: parseInt(line),
+      startColumn: parseInt(startColumn),
+      endColumn: parseInt(endColumn),
+    }
 
     if (lineData[0] === 'ERROR') {
-      core.error(message);
+      core.error(message, annotation);
       errorCount++;
     } else if (lineData[0] === 'WARNING') {
-      core.warning(message);
+      core.warning(message, annotation);
       warningCount++;
     } else {
-      core.notice(message);
+      core.notice(message, annotation);
       infoCount++;
     }
   }
