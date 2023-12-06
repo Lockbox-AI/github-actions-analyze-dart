@@ -116,6 +116,8 @@ async function format(workingDirectory) {
   args.push('.');
 
   await exec.exec('dart', args, options);
+
+  const command = `dart format ${args.join(' ')}`;
   
   let warningCount = 0;
   const lines = output.trim().split(/\r?\n/);
@@ -124,13 +126,13 @@ async function format(workingDirectory) {
     if (!line.endsWith('.dart')) continue;
     const file = line.substring(8); // Remove the "Changed " prefix
 
-    const message = `Invalid format. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
+    const message = `Invalid format. Run '${command}' locally to correct. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
     const annotation = {
       title: "Code Analysis Style Finding",
-      file: file
+      file: file,
+      startLine: 1,
     };
 
-    console.log(`File variable value: '${file}'`);
     core.warning(message, annotation);
     warningCount++;
   }
