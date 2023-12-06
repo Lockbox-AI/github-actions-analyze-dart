@@ -4240,6 +4240,8 @@ async function format(workingDirectory) {
     const annotation = {
       title: "Code Analysis Style Finding",
       file: `/${file}`, // note preceding slash, required by GitHub to show annotation on file
+      startLine: 1,
+      startColumn: 1,
     };
 
     core.warning(message, annotation);
