@@ -65,9 +65,7 @@ async function analyze(workingDirectory) {
     const lintMessage = lineData[7];
     const url = lint === lintLowerCase
       ? `https://dart-lang.github.io/linter/lints/${lint}.html`
-      : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`
-    
-    console.log(`File variable value: '${file}'`);
+      : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`;
     
     const message = `${lintMessage} For more details, see ${url}`;
     const annotation = {
@@ -131,8 +129,7 @@ async function format(workingDirectory) {
     const message = `File is an invalid style format. Run '${command}' locally to correct. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
     const annotation = {
       title: "Code Analysis Style Finding",
-      file: file,
-      startLine: 1,
+      file: `/${file}`, // note preceding slash, required by GitHub to show annotation on file
     };
 
     core.warning(message, annotation);
