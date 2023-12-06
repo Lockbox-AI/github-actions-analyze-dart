@@ -4240,7 +4240,7 @@ async function format(workingDirectory) {
       file: file
     };
 
-    core.debug(`File '${file}' has invalid format.`);
+    console.log(`File variable value: '${file}'`);
     core.warning(message, annotation);
     warningCount++;
   }
