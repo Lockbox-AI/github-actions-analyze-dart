@@ -4177,6 +4177,8 @@ async function analyze(workingDirectory) {
       ? `https://dart-lang.github.io/linter/lints/${lint}.html`
       : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`
     
+    console.log(`File variable value: '${file}'`);
+    
     const message = `${lintMessage} For more details, see ${url}`;
     const annotation = {
       title: "Code Analysis Finding",
