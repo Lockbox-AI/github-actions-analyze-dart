@@ -4236,7 +4236,7 @@ async function format(workingDirectory) {
     if (!line.endsWith('.dart')) continue;
     const file = line.substring(8); // Remove the "Changed " prefix
 
-    const message = `Invalid format. Run '${command}' locally to correct. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
+    const message = `File is an invalid style format. Run '${command}' locally to correct. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
     const annotation = {
       title: "Code Analysis Style Finding",
       file: file,
