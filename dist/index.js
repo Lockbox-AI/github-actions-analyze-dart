@@ -4170,7 +4170,7 @@ async function analyze(workingDirectory) {
     const lint = lineData[2];
     const lintLowerCase = lint.toLowerCase();
     const file = lineData[3].replace(workingDirectory, '');
-    const line = lineData[4];
+    const annotationLine = lineData[4];
     const startColumn = lineData[5];
     const endColumn = lineData[7];
     const url = lint === lintLowerCase
@@ -4178,15 +4178,15 @@ async function analyze(workingDirectory) {
       : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`
     // const message = `file=${file},line=${lineData[4]},col=${lineData[5]}::${lineData[7]} For more details, see ${url}`;
 
-    const message = `${lineData[7]} For more details, see ${url}`
+    const message = `${lineData[7]} For more details, see ${url}`;
     const annotation = {
       title: "Code Analysis Output",
       file: file,
-      startLine: parseInt(line),
-      endLine: parseInt(line),
+      startLine: parseInt(annotationLine),
+      endLine: parseInt(annotationLine),
       startColumn: parseInt(startColumn),
-      endColumn: parseInt(endColumn),
-    }
+      endColumn: parseInt(endColumn)
+    };
 
     if (lineData[0] === 'ERROR') {
       core.error(message, annotation);
