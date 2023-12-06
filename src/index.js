@@ -63,13 +63,13 @@ async function analyze(workingDirectory) {
     const message = `file=${file},line=${lineData[4]},col=${lineData[5]}::${lineData[7]} For more details, see ${url}`;
 
     if (lineData[0] === 'ERROR') {
-      console.log(`::error ${message}`);
+      core.error(message);
       errorCount++;
     } else if (lineData[0] === 'WARNING') {
-      console.log(`::warning ${message}`);
+      core.warning(message);
       warningCount++;
     } else {
-      console.log(`::notice ${message}`);
+      core.notice(message);
       infoCount++;
     }
   }
@@ -109,7 +109,7 @@ async function format(workingDirectory) {
     if (!line.endsWith('.dart')) continue;
     const file = line.substring(8); // Remove the "Changed " prefix
 
-    console.log(`::warning file=${file}::Invalid format. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`);
+    core.warning(`file=${file}::Invalid format. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`);
     warningCount++;
   }
 
