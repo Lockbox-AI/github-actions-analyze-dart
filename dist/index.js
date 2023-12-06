@@ -4239,9 +4239,7 @@ async function format(workingDirectory) {
     const message = `File is an invalid style format. Run '${command}' locally to correct. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
     const annotation = {
       title: "Code Analysis Style Finding",
-      file: `/${file}`, // note preceding slash, required by GitHub to show annotation on file
-      startLine: 1,
-      startColumn: 1,
+      file: `/${file}`,
     };
 
     core.warning(message, annotation);
