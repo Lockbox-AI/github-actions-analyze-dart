@@ -27,7 +27,7 @@ async function run() {
 async function analyze(workingDirectory) {
   let output = '';
 
-  const options = { cwd: workingDirectory };
+  const options = { cwd: workingDirectory, ignoreReturnCode: true };
   options.listeners = {
     stdout: (data) => {
       output += data.toString();
@@ -80,7 +80,7 @@ async function analyze(workingDirectory) {
 async function format(workingDirectory) {
   let output = '';
 
-  const options = { cwd: workingDirectory };
+  const options = { cwd: workingDirectory, ignoreReturnCode: true };
   options.listeners = {
     stdout: (data) => {
       output += data.toString();
