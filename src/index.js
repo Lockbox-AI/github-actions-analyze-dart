@@ -61,21 +61,20 @@ async function analyze(workingDirectory) {
     const lintLowerCase = lint.toLowerCase();
     const file = lineData[3].replace(workingDirectory, '');
     const annotationLine = lineData[4];
-    const startColumn = lineData[5];
-    const endColumn = lineData[7];
+    const annotationColumn = lineData[5];
+    const lintMessage = lineData[7];
     const url = lint === lintLowerCase
       ? `https://dart-lang.github.io/linter/lints/${lint}.html`
       : `https://dart.dev/tools/diagnostic-messages#${lintLowerCase}`
-    // const message = `file=${file},line=${lineData[4]},col=${lineData[5]}::${lineData[7]} For more details, see ${url}`;
-
-    const message = `${lineData[7]} For more details, see ${url}`;
+    
+    const message = `${lintMessage} For more details, see ${url}`;
     const annotation = {
-      title: "Code Analysis Output",
+      title: "Code Analysis Finding",
       file: file,
       startLine: parseInt(annotationLine),
       endLine: parseInt(annotationLine),
-      startColumn: parseInt(startColumn),
-      endColumn: parseInt(endColumn)
+      startColumn: parseInt(annotationColumn),
+      endColumn: parseInt(annotationColumn)
     };
 
     if (lineData[0] === 'ERROR') {
@@ -125,7 +124,13 @@ async function format(workingDirectory) {
     if (!line.endsWith('.dart')) continue;
     const file = line.substring(8); // Remove the "Changed " prefix
 
-    core.warning(`file=${file}::Invalid format. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`);
+    const message = `Invalid format. For more details, see https://dart.dev/guides/language/effective-dart/style#formatting`;
+    const annotation = {
+      title: "Code Analysis Style Finding",
+      file: file
+    };
+
+    core.warning(message, annotation);
     warningCount++;
   }
 
