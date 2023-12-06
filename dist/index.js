@@ -4240,6 +4240,7 @@ async function format(workingDirectory) {
       file: file
     };
 
+    core.debug(`File '${file}' has invalid format.`);
     core.warning(message, annotation);
     warningCount++;
   }
