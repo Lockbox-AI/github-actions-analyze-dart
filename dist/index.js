@@ -4227,7 +4227,7 @@ async function format(workingDirectory) {
 
   await exec.exec('dart', args, options);
 
-  const command = `dart format ${args.join(' ')}`;
+  const command = `dart ${args.join(' ')}`;
   
   let warningCount = 0;
   const lines = output.trim().split(/\r?\n/);
