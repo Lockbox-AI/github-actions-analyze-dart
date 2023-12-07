@@ -4232,6 +4232,8 @@ async function format(workingDirectory) {
   let warningCount = 0;
   const lines = output.trim().split(/\r?\n/);
 
+  const filesWithStyleIssues = [];
+
   for (const line of lines) {
     if (!line.endsWith('.dart')) continue;
     const file = line.substring(8); // Remove the "Changed " prefix
@@ -4243,8 +4245,22 @@ async function format(workingDirectory) {
     };
 
     core.warning(message, annotation);
+
+    filesWithStyleIssues.push(file);
     warningCount++;
   }
+
+  const markdownTable = [];
+  markdownTable.push([{ data: 'Status', header: true }, { data: 'File', header: true }]);
+
+  for (const file of filesWithStyleIssues) {
+    markdownTable.push([':warning:', file]);
+  }
+
+  await core.summary
+    .addHeading('Global Project Style Issues')
+    .addTable(markdownTable)
+    .write();
 
   return warningCount;
 }
