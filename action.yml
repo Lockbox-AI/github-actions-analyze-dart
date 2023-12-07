@@ -13,6 +13,9 @@ inputs:
     default: ./
   line-length:
     description: 'The maximum line length. Optional. The formatter will use its default: `80`'
+  repo-token:
+    description: 'The GitHub token to use for authentication.'
+    required: true
 runs:
   using: 'node20'
   main: 'dist/index.js'
