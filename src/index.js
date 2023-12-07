@@ -81,15 +81,15 @@ async function analyze(workingDirectory) {
     };
 
     if (lineData[0] === 'ERROR') {
-      markdownTable.push([':x:', file, annotationLine, annotationColumn, lintMessage]);
+      markdownTable.push([':x:', file, annotationLine, annotationColumn, message]);
       core.error(message, annotation);
       errorCount++;
     } else if (lineData[0] === 'WARNING') {
-      markdownTable.push([':warning:', file, annotationLine, annotationColumn, lintMessage]);
+      markdownTable.push([':warning:', file, annotationLine, annotationColumn, message]);
       core.warning(message, annotation);
       warningCount++;
     } else {
-      markdownTable.push([':information_source:', file, annotationLine, annotationColumn, lintMessage]);
+      markdownTable.push([':information_source:', file, annotationLine, annotationColumn, message]);
       core.notice(message, annotation);
       infoCount++;
     }
