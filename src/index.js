@@ -48,6 +48,9 @@ async function analyze(workingDirectory) {
   const lines = output.trim().split(/\r?\n/);
   const dataDelimiter = '|';
 
+  const markdownTable = [];
+  markdownTable.push([{ data: 'Status', header: true }, { data: 'File', header: true }, { data: 'Line', header: true }, { data: 'Column', header: true }, { data: 'Message', header: true }]);
+
   for (const line of lines) {
     if (!line.includes(dataDelimiter)) {
       continue;
@@ -78,16 +81,24 @@ async function analyze(workingDirectory) {
     };
 
     if (lineData[0] === 'ERROR') {
+      markdownTable.push([':x:', file, annotationLine, annotationColumn, lintMessage]);
       core.error(message, annotation);
       errorCount++;
     } else if (lineData[0] === 'WARNING') {
+      markdownTable.push([':warning:', file, annotationLine, annotationColumn, lintMessage]);
       core.warning(message, annotation);
       warningCount++;
     } else {
+      markdownTable.push([':information_source:', file, annotationLine, annotationColumn, lintMessage]);
       core.notice(message, annotation);
       infoCount++;
     }
   }
+
+  await core.summary
+    .addHeading('Global Project Analysis Issues')
+    .addTable(markdownTable)
+    .write();
 
   return [errorCount, warningCount, infoCount];
 }
