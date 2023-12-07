@@ -11170,7 +11170,7 @@ async function analyze(workingDirectory) {
   
   const pullRequestNumber = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
   if (pullRequestNumber) {
-    const repoToken = core.getInput('repo-token');
+    const repoToken = github.context.token;
     const octokit = new github.GitHub(repoToken);
 
     await octokit.rest.issues.createComment({
