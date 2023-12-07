@@ -15,7 +15,7 @@ inputs:
     description: 'The maximum line length. Optional. The formatter will use its default: `80`'
   repo-token:
     description: 'The GitHub token to use for authentication. Optional. Default: `${{ github.token }}`'
-    default: ${{ github.token }}
+    default: '${{ github.token }}'
     required: true
 runs:
   using: 'node20'
