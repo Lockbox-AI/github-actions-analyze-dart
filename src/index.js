@@ -1,5 +1,6 @@
 const core = require('@actions/core');
 const exec = require('@actions/exec');
+const github = require('@actions/github');
 const path = require('path');
 
 async function run() {
@@ -99,6 +100,19 @@ async function analyze(workingDirectory) {
     .addHeading('Global Project Analysis Issues')
     .addTable(markdownTable)
     .write();
+  
+  const pullRequestNumber = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
+  if (pullRequestNumber) {
+    const repoToken = core.getInput('repo-token');
+    const octokit = new github.GitHub(repoToken);
+
+    await octokit.rest.issues.createComment({
+      owner: github.context.repo.owner,
+      repo: github.context.repo.repo,
+      issue_number: pullRequestNumber,
+      body: `## Global Project Analysis Issues\n\n${markdownTable.map(row => row.map(cell => cell.data).join(' | ')).join('\n')}`
+    });
+  }
 
   return [errorCount, warningCount, infoCount];
 }
