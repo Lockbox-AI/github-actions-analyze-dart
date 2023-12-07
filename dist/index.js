@@ -11168,6 +11168,7 @@ async function analyze(workingDirectory) {
     .addTable(markdownTable)
     .write();
   
+  /*
   const pullRequestNumber = github.context.payload.pull_request ? github.context.payload.pull_request.number : null;
   if (pullRequestNumber) {
     const repoToken = core.getInput('repo-token');
@@ -11180,6 +11181,7 @@ async function analyze(workingDirectory) {
       body: `## Global Project Analysis Issues\n\n${markdownTable.map(row => row.map(cell => cell.data).join(' | ')).join('\n')}`
     });
   }
+  */
 
   return [errorCount, warningCount, infoCount];
 }
